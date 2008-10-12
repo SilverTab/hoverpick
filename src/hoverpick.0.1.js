@@ -21,15 +21,15 @@ var HoverPick = new Class({
 	
 	buildElements: function() {
 		this.el.addEvent('click', this.showPanel.bind(this));
-		
+		var coords = this.el.getCoordinates();
 		// The main DIV 
 		this.mainDiv = new Element('div', {
 			'styles' : {
 				'position': 'absolute',
 				'margin': 0,
 				'padding': 0,
-				'left': this.el.getPosition().x,
-				'top': this.el.getPosition().y + this.el.getSize().y
+				'left': coords.left,
+				'top': coords.bottom
 			}
 		});
 		this.mainDiv.inject(this.el, 'after');
