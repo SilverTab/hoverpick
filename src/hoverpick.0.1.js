@@ -28,6 +28,12 @@ var HoverPick = new Class({
 	
 	buildElements: function() {
 		this.el.addEvent('click', this.showPanel.bind(this));
+		this.el.addEvent('blur', this.hidePanel.bind(this));
+		this.el.addEvent('keydown', function(e){
+			if(e.key === 'esc') {
+				this.hidePanel();
+			}
+		}.bind(this));
 		var coords = this.el.getCoordinates();
 		// The main DIV 
 		this.mainDiv = new Element('div', {
@@ -84,7 +90,7 @@ var HoverPick = new Class({
 							this.itemOver(itemEl);
 						}.bind(this),
 						'click': function() {
-							this.itemClicked();
+							this.hidePanel();
 						}.bind(this)
 					}
 				});
@@ -145,16 +151,19 @@ var HoverPick = new Class({
 		}
 	},
 	
-	itemClicked: function() {
-			this.panelVisible = false;
-			this.fadeFx.start('opacity', 1, 0).chain(function() {
-				if(this.options.resetOnHide) {
-					this.panelsUl.each(function(el) {
-						el.setStyle('display', 'none');
-						el.getChildren('li').removeClass('hover');
-					});
-				}
-			}.bind(this));
+	hidePanel: function() {
+			if(this.panelVisible) {
+				this.panelVisible = false;
+				this.fadeFx.start('opacity', 1, 0).chain(function() {
+					if(this.options.resetOnHide) {
+						this.panelsUl.each(function(el) {
+							el.setStyle('display', 'none');
+							el.getChildren('li').removeClass('hover');
+						});
+					}
+				}.bind(this));
+			}
+			
 	 },
 	 
 	updateText: function() {
