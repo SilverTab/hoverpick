@@ -1,3 +1,10 @@
+Element.implement({
+	// Calculate an element's width using only its style...
+	computeWidth: function() {
+		return this.getStyle('width').toInt() + this.getStyle('margin-left').toInt() + this.getStyle('margin-right').toInt() + this.getStyle('border-left').toInt() + this.getStyle('border-right').toInt() + this.getStyle('padding-left').toInt() + this.getStyle('padding-right').toInt();
+	}
+});
+
 var HoverPick = new Class({
 	Implements: Options,
 	
@@ -94,8 +101,9 @@ var HoverPick = new Class({
 			});
 			clearer.inject(this.mainDiv);
 		}, this);
-		var divWidth = itemCount * 26;
+		var divWidth = (itemCount * this.panel1.getChildren('li')[0].computeWidth());
 		this.mainDiv.setStyle('width', divWidth);
+		
 	},
 	
 	showPanel: function() {
