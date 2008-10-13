@@ -8,7 +8,7 @@ var HoverPick = new Class({
 	
 	initialize: function(el, options) {
 		// initialize all properties...
-		this.el = $type(el) === 'string' ? $(el) : el;
+		this.el = $(el);
 		this.setOptions(options);
 		
 		// Used later to prevent switching the choice when the panel is fading
