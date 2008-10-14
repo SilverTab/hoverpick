@@ -1,0 +1,28 @@
+ul.moo-pick-ul {
+	padding: 0;
+	clear: both;
+	height: 26px;
+	position: absolute;
+}
+
+
+ul.moo-pick-ul li {
+	list-style:none;
+	float:left;
+	display:block;
+	width:26px;
+	font-size:.7em;
+	padding:4px 0 4px 0;
+	margin:2px 2px 2px 0;
+	border:1px solid #777;
+	background:#eee;
+	color:ButtonText;
+	text-align:center;
+	cursor:pointer;
+	
+}
+
+ul.moo-pick-ul li.hover {
+	background:Highlight;
+	color:HighlightText;
+}
