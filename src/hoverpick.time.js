@@ -19,6 +19,7 @@ HoverPick.Time = new Class({
 	},
 	
 	updateText: function() {
+		this.parent();
 		var hour = this.panelValues[1] + "";
 		var minute = this.panelValues[2] + "";
 		var hourPadded = this.panelValues[1] < 10 ? "0" + this.panelValues[1] : this.panelValues[1] + "";

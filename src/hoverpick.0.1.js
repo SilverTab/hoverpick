@@ -17,21 +17,31 @@ var HoverPick = new Class({
 		// initialize all properties...
 		this.el = $(el);
 		this.setOptions(options);
-		
 		// Used later to prevent switching the choice when the panel is fading
 		this.panelVisible = false;
 		this.panelsUl = [];
 		this.panelValues = new Hash({});
 		// build everything...
+		
+		console.log('jere');
 		this.buildElements();
 	},
 	
 	buildElements: function() {
+		document.body.addEvent('click', function(e) {
+			if(this.panelVisible && e.target != this.el) {
+				if(e.target.getParent().hasClass('moo-pick-ul')) {
+					this.hidePanel();
+				}
+				else {
+					this.cancelPanel();
+				}
+			}
+		}.bind(this));
 		this.el.addEvent('click', this.showPanel.bind(this));
-		this.el.addEvent('blur', this.hidePanel.bind(this));
 		this.el.addEvent('keydown', function(e){
 			if(e.key === 'esc') {
-				this.hidePanel();
+				this.cancelPanel();
 			}
 		}.bind(this));
 		var coords = this.el.getCoordinates();
@@ -113,8 +123,10 @@ var HoverPick = new Class({
 	},
 	
 	showPanel: function() {
+		
 		this.fadeFx.start('opacity', 0, 1);
 		this.panelsUl[0].setStyle('display', 'block');
+		this.currentValue = this.concatenateValues();
 		this.panelVisible = true;
 	},
 	
@@ -123,6 +135,7 @@ var HoverPick = new Class({
 			var level = el.retrieve('level');
 			// update the values...
 			this.panelValues[level] = el.retrieve('value');
+
 			this.updateText();
 			// highlight selected item
 			this['panel' + level].getChildren('li').removeClass('hover');
@@ -151,27 +164,37 @@ var HoverPick = new Class({
 		}
 	},
 	
+	cancelPanel: function() {
+		this.el.value = this.currentValue;
+		this.hidePanel();
+		
+	},
+	
 	hidePanel: function() {
-			if(this.panelVisible) {
-				this.panelVisible = false;
-				this.fadeFx.start('opacity', 1, 0).chain(function() {
-					if(this.options.resetOnHide) {
-						this.panelsUl.each(function(el) {
-							el.setStyle('display', 'none');
-							el.getChildren('li').removeClass('hover');
-						});
-					}
-				}.bind(this));
+		this.panelVisible = false;
+		this.currentValue = this.concatenateValues();
+		this.fadeFx.start('opacity', 1, 0).chain(function() {
+			if(this.options.resetOnHide) {
+				this.panelsUl.each(function(el) {
+					el.setStyle('display', 'none');
+					el.getChildren('li').removeClass('hover');
+				});
 			}
-			
+		}.bind(this));
+	
+	
 	 },
 	 
-	updateText: function() {
+	concatenateValues: function() {
 		var finalValue = "";
 		this.panelValues.each(function(value, key) {
 			finalValue = finalValue + value + "";
 		});
-		this.el.set('value', finalValue);
+	},
+	 
+	updateText: function() {
+		this.el.set('value', this.concatenateValues());
+		
 	}
 });
 
