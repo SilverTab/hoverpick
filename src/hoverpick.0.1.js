@@ -23,7 +23,6 @@ var HoverPick = new Class({
 		this.panelValues = new Hash({});
 		// build everything...
 		
-		console.log('jere');
 		this.buildElements();
 	},
 	
