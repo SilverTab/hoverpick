@@ -99,6 +99,7 @@ var HoverPick = new Class({
 							this.itemOver(itemEl);
 						}.bind(this),
 						'click': function() {
+							
 							this.hidePanel();
 						}.bind(this)
 					}
@@ -125,7 +126,8 @@ var HoverPick = new Class({
 		
 		this.fadeFx.start('opacity', 0, 1);
 		this.panelsUl[0].setStyle('display', 'block');
-		this.currentValue = this.concatenateValues();
+		
+		this.currentValue = this.el.value;
 		this.panelVisible = true;
 	},
 	
@@ -171,7 +173,7 @@ var HoverPick = new Class({
 	
 	hidePanel: function() {
 		this.panelVisible = false;
-		this.currentValue = this.concatenateValues();
+		
 		this.fadeFx.start('opacity', 1, 0).chain(function() {
 			if(this.options.resetOnHide) {
 				this.panelsUl.each(function(el) {
@@ -181,7 +183,6 @@ var HoverPick = new Class({
 			}
 		}.bind(this));
 	
-	
 	 },
 	 
 	concatenateValues: function() {
@@ -189,6 +190,7 @@ var HoverPick = new Class({
 		this.panelValues.each(function(value, key) {
 			finalValue = finalValue + value + "";
 		});
+		return finalValue;
 	},
 	 
 	updateText: function() {
