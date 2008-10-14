@@ -6,7 +6,8 @@ HoverPick.Time = new Class({
 		minutes: [0, 15, 30, 45],
 		amPm: ['am', 'pm'],
 		seconds: [],
-		format: "HH:MM aa"
+		format: "HH:MM aa",
+		imgSrc: ''
 	},
 	
 	initialize: function(el, options) {

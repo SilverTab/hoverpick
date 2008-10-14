@@ -10,7 +10,8 @@ var HoverPick = new Class({
 	
 	options: {
 		panels: [],
-		resetOnHide: true
+		resetOnHide: true,
+		imgSrc: ''
 	},
 	
 	initialize: function(el, options) {
@@ -22,21 +23,11 @@ var HoverPick = new Class({
 		this.panelsUl = [];
 		this.panelValues = new Hash({});
 		// build everything...
-		
 		this.buildElements();
 	},
 	
 	buildElements: function() {
-		document.body.addEvent('click', function(e) {
-			if(this.panelVisible && e.target != this.el) {
-				if(e.target.getParent().hasClass('moo-pick-ul')) {
-					this.hidePanel();
-				}
-				else {
-					this.cancelPanel();
-				}
-			}
-		}.bind(this));
+		
 		this.el.addEvent('click', this.showPanel.bind(this));
 		this.el.addEvent('keydown', function(e){
 			if(e.key === 'esc') {
@@ -60,18 +51,32 @@ var HoverPick = new Class({
 		});
 		this.fadeFx.set('opacity', 0);
 		// The timepicker itself
-		this.timePicker = new Element('img', {
-			'src': 'clock_red.png',
-			'styles': {
-				'position': 'absolute',
-				'margin': '3px 0 0 3px',
-				'cursor': 'pointer'
-			},
-			'events': {
-				'click': this.showPanel.bind(this)
+		if(this.options.imgSrc != '') {
+			this.timePicker = new Element('img', {
+				'src': this.options.imgSrc,
+				'styles': {
+					'position': 'absolute',
+					'margin': '3px 0 0 3px',
+					'cursor': 'pointer'
+				},
+				'events': {
+					'click': this.showPanel.bind(this)
+				}
+			});
+			this.timePicker.inject(this.mainDiv, 'after');
+		}
+		
+		// add a click event to document.body to check for cancelation
+		$(document.body).addEvent('click', function(e) {
+			if(this.panelVisible && $(e.target) != this.el && $(e.target) != this.timePicker) {
+				if($(e.target).getParent().hasClass('moo-pick-ul')) {
+					this.hidePanel();
+				}
+				else {
+					this.cancelPanel();
+				}
 			}
-		});
-		this.timePicker.inject(this.mainDiv, 'after');
+		}.bind(this));
 		
 		// The panels...
 		var itemCount = 0;
