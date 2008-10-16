@@ -1,7 +1,7 @@
 Element.implement({
 	// Calculate an element's width using only its style...
-	computeWidth: function() {
-		return this.getStyle('width').toInt() + this.getStyle('margin-left').toInt() + this.getStyle('margin-right').toInt() + this.getStyle('border-left').toInt() + this.getStyle('border-right').toInt() + this.getStyle('padding-left').toInt() + this.getStyle('padding-right').toInt();
+	computeSizeFromStyle: function() {
+		return {x: this.getStyle('width').toInt() + this.getStyle('margin-left').toInt() + this.getStyle('margin-right').toInt() + this.getStyle('border-left').toInt() + this.getStyle('border-right').toInt() + this.getStyle('padding-left').toInt() + this.getStyle('padding-right').toInt(), y: this.getStyle('height').toInt() + this.getStyle('margin-top').toInt() + this.getStyle('margin-bottom').toInt() + this.getStyle('border-top').toInt() + this.getStyle('border-bottom').toInt() + this.getStyle('padding-top').toInt() + this.getStyle('padding-bottom').toInt()};
 	}
 });
 
@@ -82,12 +82,10 @@ var HoverPick = new Class({
 		var itemCount = 0;
 		this.options.panels.each(function(panel, index) {
 			itemCount = itemCount + panel.length;
-			var margin = index * 26;
 			var panelType = $type(panel[0]);
 			this['panel' + (index + 1)] = new Element('ul', {
 				'class': 'moo-pick-ul',
 				'styles' : {
-					'margin': margin + "px 0 0 0",
 					'display': 'none'
 				}
 			});
@@ -122,8 +120,11 @@ var HoverPick = new Class({
 			});
 			clearer.inject(this.mainDiv);
 		}, this);
-		var divWidth = (itemCount * this.panel1.getChildren('li')[0].computeWidth());
+		var divWidth = (itemCount * this.panel1.getChildren('li')[0].computeSizeFromStyle().x);
 		this.mainDiv.setStyle('width', divWidth);
+		this.panelsUl.each(function(aPanel, index){
+			aPanel.setStyle('margin-top', index * aPanel.getChildren('li')[0].computeSizeFromStyle().y);
+		}, this);
 		
 	},
 	
