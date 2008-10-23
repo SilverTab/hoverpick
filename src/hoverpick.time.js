@@ -9,7 +9,7 @@ HoverPick.Time = new Class({
 		format: "HH:MM aa",
 		imgSrc: 'clock_red.png'
 	},
-	
+	 
 	initialize: function(el, options) {
 		this.setOptions(options);
 		this.options.panels = [this.options.hours, this.options.minutes];

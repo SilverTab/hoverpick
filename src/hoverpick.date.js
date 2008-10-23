@@ -7,6 +7,7 @@ HoverPick.Date = new Class({
 	},
 	
 	initialize: function(el, options) {
+		// What the fuck
 		this.setOptions(options);
 		//if no years are set, set some default ones...
 		var currentYear = new Date().getFullYear();

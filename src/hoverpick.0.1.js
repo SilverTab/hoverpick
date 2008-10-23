@@ -12,7 +12,7 @@ var HoverPick = new Class({
 		panels: [],
 		resetOnHide: true,
 		imgSrc: ''
-	},
+	}, 
 	
 	initialize: function(el, options) {
 		// initialize all properties...

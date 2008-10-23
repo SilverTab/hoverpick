@@ -11,6 +11,7 @@ ul.moo-pick-ul li {
 	display:block;
 	width:22px;
 	height: 14px;
+	line-height: 14px;
 	font-size:.7em;
 	padding:4px 0 4px 0;
 	margin:2px 2px 2px 0;
